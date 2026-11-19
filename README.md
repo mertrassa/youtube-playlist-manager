@@ -46,7 +46,6 @@ Sorting and filtering only change what's on screen. Your playlist on YouTube is 
 A bar under the playlist panel header:
 
 - **⇅ Reverse** plays the playlist from last to first. The panel is flipped too.
-- **⤒ Play from last** jumps to the last video and turns reverse on.
 - **⏭ Skip watched** skips videos you've already finished when moving forward. Watched videos are dimmed in the panel.
 - **Custom order chip** shows the order you picked on the playlist page, such as "Custom order: Shortest first, 20–60 min · 13 videos". Click ✕ to go back to normal order.
 - **Progress line** shows which video you're on and the time left, such as "Video 12 of 35 · 1h 05m left at 1.5×", with a thin progress bar.

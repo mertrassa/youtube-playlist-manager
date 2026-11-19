@@ -125,15 +125,6 @@
     return true;
   }
 
-  function playFromLast() {
-    Y.setMode(Y.listId(), { mode: "reverse" });
-    const items = panelItems(activePanel()).map(itemInfo);
-    const last = items[items.length - 1];
-    if (!last) return Y.toast("Playlist panel isn't loaded yet.");
-    if (last.v === Y.videoId()) return Y.toast("Already on the last video — reverse order is on.");
-    navigateTo(last);
-  }
-
   /* ------------------------------------------------------------------ */
   /* Video events: progress tracking + auto-advance                       */
   /* ------------------------------------------------------------------ */
@@ -243,7 +234,6 @@
         className: "ypm-small ypm-reverse",
         title: "Play this playlist last → first",
       }),
-      Y.button("⤒", "Play from last", playFromLast, { className: "ypm-small", title: "Jump to the last video and play backwards" }),
       Y.button("⏭", "Skip watched", () => Y.setSetting("skipWatched", !Y.settings.skipWatched), {
         className: "ypm-small ypm-skip",
         title: "Skip videos you've already watched when moving forward",

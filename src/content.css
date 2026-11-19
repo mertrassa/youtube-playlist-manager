@@ -1,0 +1,333 @@
+/* Playlist Manager for YouTube — injected styles. YouTube marks dark mode with html[dark]. */
+
+:root {
+  --ypm-fg: #0f0f0f;
+  --ypm-fg-2: #606060;
+  --ypm-bg: #ffffff;
+  --ypm-surface: #f2f2f2;
+  --ypm-border: rgba(0, 0, 0, 0.1);
+  --ypm-accent: #065fd4;
+  --ypm-accent-soft: rgba(6, 95, 212, 0.12);
+}
+html[dark] {
+  --ypm-fg: #f1f1f1;
+  --ypm-fg-2: #aaaaaa;
+  --ypm-bg: #0f0f0f;
+  --ypm-surface: #272727;
+  --ypm-border: rgba(255, 255, 255, 0.12);
+  --ypm-accent: #3ea6ff;
+  --ypm-accent-soft: rgba(62, 166, 255, 0.2);
+}
+
+/* ---------- Buttons ---------- */
+.ypm-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 36px;
+  padding: 0 14px;
+  border: none;
+  border-radius: 18px;
+  color: var(--ypm-fg);
+  background: color-mix(in srgb, currentColor 10%, transparent);
+  font: 500 14px/36px "Roboto", "Arial", sans-serif;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  vertical-align: middle;
+  list-style: none; /* for <summary> */
+}
+.ypm-btn::-webkit-details-marker {
+  display: none;
+}
+.ypm-btn:hover {
+  background: color-mix(in srgb, currentColor 18%, transparent);
+}
+.ypm-btn:focus-visible,
+.ypm-input:focus-visible {
+  outline: 2px solid var(--ypm-accent);
+  outline-offset: 2px;
+}
+.ypm-btn:disabled {
+  opacity: 0.55;
+  cursor: progress;
+}
+.ypm-btn[aria-pressed="true"] {
+  background: var(--ypm-accent-soft);
+  box-shadow: inset 0 0 0 1.5px var(--ypm-accent);
+}
+.ypm-btn.ypm-primary {
+  background: var(--ypm-fg);
+  color: var(--ypm-bg);
+}
+.ypm-btn.ypm-primary:hover {
+  background: color-mix(in srgb, var(--ypm-fg) 85%, var(--ypm-bg));
+}
+.ypm-btn.ypm-small {
+  height: 32px;
+  line-height: 32px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+.ypm-btn .ypm-icon {
+  font-size: 15px;
+  line-height: 1;
+}
+.ypm-btn .ypm-icon:empty {
+  display: none;
+}
+.ypm-btn[hidden],
+.ypm-hidden {
+  display: none !important;
+}
+
+/* Groups placed next to YouTube's own header buttons: text colour is copied by script. */
+.ypm-inline-group {
+  display: inline-flex;
+  gap: 8px;
+  margin-left: 8px;
+  vertical-align: middle;
+}
+.ypm-inline-group[style*="color"] .ypm-btn {
+  color: inherit;
+}
+.ypm-floating {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 2200;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border-radius: 24px;
+  background: var(--ypm-bg);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+}
+
+/* ---------- Inputs ---------- */
+.ypm-input {
+  height: 36px;
+  min-width: 0;
+  padding: 0 12px;
+  border: 1px solid var(--ypm-border);
+  border-radius: 18px;
+  color: var(--ypm-fg);
+  background: var(--ypm-surface);
+  font: 400 14px "Roboto", "Arial", sans-serif;
+}
+select.ypm-input {
+  padding-right: 8px;
+  cursor: pointer;
+}
+.ypm-input option {
+  color: var(--ypm-fg);
+  background: var(--ypm-bg);
+}
+
+/* ---------- Playlist page toolbar ---------- */
+.ypm-toolbar {
+  position: sticky;
+  top: var(--ytd-masthead-height, 56px);
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin: 0 0 12px;
+  padding: 12px 16px;
+  border: 1px solid var(--ypm-border);
+  border-radius: 12px;
+  color: var(--ypm-fg);
+  background: var(--ypm-bg);
+  font: 400 14px/20px "Roboto", "Arial", sans-serif;
+}
+/* YouTube's page wrapper uses overflow:hidden, which disables sticky positioning.
+   overflow:clip clips the same way without creating a scroll container. */
+ytd-browse[page-subtype="playlist"]:has(.ypm-toolbar) {
+  overflow: clip !important;
+}
+/* On short windows a pinned toolbar would eat too much of the screen. */
+@media (max-height: 899px) {
+  .ypm-toolbar {
+    position: static;
+  }
+}
+.ypm-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+.ypm-stats {
+  color: var(--ypm-fg-2);
+}
+.ypm-stats-text {
+  color: var(--ypm-fg);
+  font-weight: 500;
+}
+.ypm-at {
+  margin-left: 2px;
+}
+.ypm-speed {
+  height: 28px;
+  padding: 0 6px;
+}
+.ypm-search {
+  flex: 1 1 200px;
+}
+.ypm-controls select {
+  flex: 0 1 auto;
+  max-width: 220px;
+}
+.ypm-status,
+.ypm-count {
+  color: var(--ypm-fg-2);
+}
+.ypm-count {
+  margin-left: auto;
+}
+/* Sorted / filtered list: same DOM, new visual order. */
+.ypm-sorted {
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Export dropdown */
+.ypm-menu {
+  position: relative;
+}
+.ypm-menu-list {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  min-width: 180px;
+  padding: 8px 0;
+  border-radius: 12px;
+  background: var(--ypm-bg);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+}
+.ypm-menu-list .ypm-btn {
+  justify-content: flex-start;
+  width: 100%;
+  border-radius: 0;
+  background: transparent;
+}
+.ypm-menu-list .ypm-btn:hover {
+  background: var(--ypm-surface);
+}
+
+/* ---------- Watch page: playlist panel bar ---------- */
+.ypm-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 6px 12px 10px;
+  color: var(--ypm-fg);
+  font: 400 12px/16px "Roboto", "Arial", sans-serif;
+}
+.ypm-bar-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.ypm-chip {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  max-width: 100%;
+  padding: 4px 4px 4px 12px;
+  border-radius: 14px;
+  background: var(--ypm-accent-soft);
+  font-weight: 500;
+}
+.ypm-chip[hidden] {
+  display: none;
+}
+.ypm-chip-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.ypm-chip-x {
+  flex: none;
+  width: 22px;
+  height: 22px;
+  border: none;
+  border-radius: 50%;
+  color: inherit;
+  background: transparent;
+  cursor: pointer;
+}
+.ypm-chip-x:hover {
+  background: color-mix(in srgb, currentColor 15%, transparent);
+}
+.ypm-progress-text {
+  color: var(--ypm-fg-2);
+}
+.ypm-progress-text:empty,
+.ypm-progress-text:empty + .ypm-progress-track {
+  display: none;
+}
+.ypm-progress-track {
+  height: 3px;
+  margin-top: 4px;
+  border-radius: 2px;
+  background: color-mix(in srgb, currentColor 15%, transparent);
+  overflow: hidden;
+}
+.ypm-progress-fill {
+  height: 100%;
+  width: 0;
+  background: #f00;
+  transition: width 0.4s linear;
+}
+
+/* Reverse / custom order in the panel: visual order only, DOM untouched.
+   Items get a CSS `order` from script. Don't use column-reverse here: in the wide layout #items
+   is itself the scroll box, and column-reverse moves its scroll origin to the bottom, so
+   YouTube's scroll-to-current-video gets clamped and the panel sticks to the last item. */
+ytd-playlist-panel-renderer.ypm-reversed #items,
+ytd-playlist-panel-renderer.ypm-queued #items {
+  display: flex !important;
+  flex-direction: column !important;
+}
+/* Keep YouTube's own notices ("N unavailable videos are hidden") out of the custom order. */
+ytd-playlist-panel-renderer.ypm-reversed #items > :not(ytd-playlist-panel-video-renderer),
+ytd-playlist-panel-renderer.ypm-queued #items > :not(ytd-playlist-panel-video-renderer) {
+  order: 999999;
+}
+ytd-playlist-panel-video-renderer.ypm-watched:not([selected]) #thumbnail-container,
+ytd-playlist-panel-video-renderer.ypm-watched:not([selected]) #meta {
+  opacity: 0.5;
+}
+
+/* ---------- Toast ---------- */
+.ypm-toast {
+  position: fixed;
+  left: 50%;
+  bottom: 32px;
+  z-index: 2300;
+  max-width: calc(100vw - 32px);
+  transform: translate(-50%, 20px);
+  padding: 10px 18px;
+  border-radius: 8px;
+  background: #212121;
+  color: #fff;
+  font: 400 14px/20px "Roboto", "Arial", sans-serif;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s, transform 0.2s;
+}
+.ypm-toast.ypm-show {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .ypm-toast,
+  .ypm-progress-fill {
+    transition: none;
+  }
+}

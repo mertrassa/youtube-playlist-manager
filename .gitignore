@@ -1,0 +1,8 @@
+.DS_Store
+Thumbs.db
+*.zip
+*.xpi
+*.crx
+*.pem
+web-ext-artifacts/
+node_modules/

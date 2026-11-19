@@ -1,0 +1,122 @@
+:root {
+  --fg: #0f0f0f;
+  --fg-2: #606060;
+  --bg: #ffffff;
+  --surface: #f2f2f2;
+  --border: rgba(0, 0, 0, 0.1);
+  --accent: #065fd4;
+  --danger: #c5221f;
+  color-scheme: light dark;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #f1f1f1;
+    --fg-2: #aaaaaa;
+    --bg: #1f1f1f;
+    --surface: #2c2c2c;
+    --border: rgba(255, 255, 255, 0.12);
+    --accent: #3ea6ff;
+    --danger: #f28b82;
+  }
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  width: 340px;
+  margin: 0;
+  padding: 14px 16px 12px;
+  color: var(--fg);
+  background: var(--bg);
+  font: 13px/1.45 system-ui, "Segoe UI", Roboto, Arial, sans-serif;
+}
+header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+h1 {
+  margin: 0;
+  font-size: 16px;
+}
+h2 {
+  margin: 0 0 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-2);
+}
+section {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+.row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 28px;
+  cursor: pointer;
+}
+.row select {
+  margin-left: auto;
+}
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  margin: 0;
+  accent-color: var(--accent);
+}
+select,
+button {
+  font: inherit;
+  color: var(--fg);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 3px 8px;
+  cursor: pointer;
+}
+button.danger {
+  color: var(--danger);
+}
+.muted {
+  margin: 4px 0 8px;
+  color: var(--fg-2);
+}
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 0;
+}
+li a {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  color: var(--accent);
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+li a:hover {
+  text-decoration: underline;
+}
+li .tag {
+  flex: none;
+  color: var(--fg-2);
+}
+li button {
+  flex: none;
+  padding: 0 7px;
+}
+footer {
+  margin: 10px 0 0;
+  font-size: 12px;
+}

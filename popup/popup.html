@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Playlist Manager</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <header>
+      <img src="../icons/icon48.png" alt="" width="24" height="24" />
+      <h1>Playlist Manager</h1>
+    </header>
+
+    <section>
+      <h2>Playback</h2>
+      <label class="row">
+        <input type="checkbox" id="skipWatched" />
+        <span>Skip videos I've already watched</span>
+      </label>
+      <label class="row">
+        <span>Count a video as watched at</span>
+        <select id="watchedThreshold">
+          <option value="50">50%</option>
+          <option value="75">75%</option>
+          <option value="90">90%</option>
+          <option value="95">95%</option>
+        </select>
+      </label>
+      <label class="row">
+        <span>“Time left” on playlist pages at</span>
+        <select id="speed">
+          <option value="1">1×</option>
+          <option value="1.25">1.25×</option>
+          <option value="1.5">1.5×</option>
+          <option value="1.75">1.75×</option>
+          <option value="2">2×</option>
+        </select>
+      </label>
+    </section>
+
+    <section>
+      <h2>Watch history</h2>
+      <label class="row">
+        <input type="checkbox" id="trackProgress" />
+        <span>Remember how much of each video I watch</span>
+      </label>
+      <p class="muted" id="historyInfo">Stored only in this browser.</p>
+      <button type="button" id="clearHistory" class="danger">Clear watch history</button>
+    </section>
+
+    <section>
+      <h2>Playlists with a custom order</h2>
+      <ul id="modes"></ul>
+      <p class="muted" id="modesEmpty">
+        None yet. Use <b>Reverse</b> on a watch page, or <b>Play shown</b> on a playlist page.
+      </p>
+    </section>
+
+    <footer class="muted">Everything stays in your browser. Nothing is sent anywhere.</footer>
+    <script src="popup.js"></script>
+  </body>
+</html>

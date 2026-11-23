@@ -69,7 +69,8 @@ var YPM = (globalThis.YPM = globalThis.YPM || {});
   }
 
   YPM.load = async () => {
-    const r = await storageGet(["settings", "modes", "videos", "reversedLists"]);
+    const r = await storageGet(["settings", "modes", "videos", "reversedLists", "account"]);
+    YPM.account = r.account || null;
     YPM.settings = { ...DEFAULT_SETTINGS, ...(r.settings || {}) };
     YPM.modes = r.modes || {};
     YPM.videos = r.videos || {};
@@ -105,6 +106,14 @@ var YPM = (globalThis.YPM = globalThis.YPM || {});
     storageSet({ modes: YPM.modes });
     YPM.emit();
   };
+  // Sign-in state last seen on YouTube: { signedIn: boolean, ts }. Saved only when it changes.
+  YPM.account = null;
+  YPM.setSignedIn = (signedIn) => {
+    if (YPM.account?.signedIn === signedIn) return;
+    YPM.account = { signedIn, ts: Date.now() };
+    storageSet({ account: YPM.account });
+  };
+
   YPM.setSetting = (key, value) => {
     YPM.settings[key] = value;
     storageSet({ settings: YPM.settings });

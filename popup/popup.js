@@ -9,7 +9,7 @@ const set = (obj) => new Promise((resolve) => ext.storage.local.set(obj, resolve
 let settings = { ...DEFAULTS };
 
 async function render() {
-  const r = await get(["settings", "modes", "videos"]);
+  const r = await get(["settings", "modes", "videos", "account"]);
   settings = { ...DEFAULTS, ...(r.settings || {}) };
   $("skipWatched").checked = settings.skipWatched;
   $("hideShorts").checked = settings.hideShorts;
@@ -18,7 +18,7 @@ async function render() {
   $("watchedThreshold").value = String(settings.watchedThreshold);
   $("speed").value = String(settings.speed);
 
-  renderCleanup();
+  renderCleanup(r.account);
 
   const videos = r.videos || {};
   const watched = Object.values(videos).filter((v) => (v.p || 0) * 100 >= settings.watchedThreshold).length;
@@ -57,12 +57,31 @@ async function render() {
 }
 
 // "Clean up YouTube": one fold-out group per page area, one switch per item (from cleanup-items.js).
+// Only the items that exist in your last-seen YouTube sign-in state are listed, unless "Show all".
 const openGroups = new Set();
-function renderCleanup() {
+let showEverything = false;
+function renderCleanup(account) {
   const hidden = settings.hidden || {};
+  const known = typeof account?.signedIn === "boolean";
+  const signedIn = known && !showEverything ? account.signedIn : null;
+
+  $("accountInfo").textContent = !known
+    ? "Open YouTube once and this list will match whether you're signed in."
+    : showEverything
+      ? "Showing options for both signed in and signed out."
+      : account.signedIn
+        ? "You're signed in to YouTube, so these are the buttons you'll see."
+        : "You're signed out of YouTube, so these are the buttons you'll see.";
+  $("showAllOptions").hidden = !known;
+  $("showAllOptions").textContent = showEverything ? "Only mine" : "Show all";
+
+  const groups = YPM_CLEANUP.groups
+    .map((g) => ({ ...g, items: g.items.filter((i) => YPM_CLEANUP.applies(i, signedIn)) }))
+    .filter((g) => g.items.length);
+
   const box = $("cleanup");
   box.replaceChildren(
-    ...YPM_CLEANUP.groups.map((g) => {
+    ...groups.map((g) => {
       const count = g.items.filter((i) => hidden[i.key]).length;
       const details = document.createElement("details");
       details.open = openGroups.has(g.title);
@@ -102,6 +121,10 @@ function renderCleanup() {
   );
   $("showAll").hidden = !Object.keys(hidden).length;
 }
+$("showAllOptions").addEventListener("click", () => {
+  showEverything = !showEverything;
+  render();
+});
 $("showAll").addEventListener("click", async () => {
   settings.hidden = {};
   await set({ settings });

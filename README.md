@@ -89,8 +89,10 @@ In the toolbar popup, **Clean up YouTube** lists the buttons and page parts you 
 | Under the video | Like / Dislike, Share, Save, Download, Clip, Thanks, Ask (AI), More actions (⋯), Join, the notification bell of channels you're subscribed to |
 | Video player | Autoplay switch, Subtitles, Theater mode, Miniplayer, Picture-in-picture, Play on TV, Next video, Copy link / Share, Info cards, Video tiles at the end, Channel watermark |
 | Top bar | Voice search, AI assistant, Create, Notifications bell, Country code next to the logo |
-| Side menu | Explore, More from YouTube, the "Sign in to like videos" box, footer links |
+| Side menu | Explore, More from YouTube, Subscriptions (your channel list), You (history, playlists…), the "Sign in to like videos" box, footer links |
 | Pages | Topic chips above feeds and suggestions, this extension's channel buttons |
+
+**The list matches your account.** YouTube shows different buttons when you're signed in (Create, the notifications bell, Ask, Clip, Thanks, the bell on subscribed channels, the Subscriptions and You menu sections) than when you're signed out (the "Sign in to like videos" box). The extension notices which one you are each time you open YouTube, and the popup only lists the switches for buttons you'll actually see. A line at the top says which list you're looking at. **Show all** lists every switch, which helps if you use YouTube both ways. Switches you ticked stay on even while they're not listed.
 
 Nothing is hidden until you tick it. Hiding the notification bell of subscribed channels also hides its menu, which is where **Unsubscribe** lives, on both watch and channel pages. Untick it when you want to unsubscribe from a channel. Hiding a button doesn't turn off its keyboard shortcut, so `t` still toggles theater mode and `c` still toggles subtitles.
 
@@ -145,8 +147,8 @@ src/channel.js       channel page buttons
 src/shorts.js        hides Shorts and opens Shorts links in the normal player
 src/interruptions.js hides the "Experiencing interruptions?" popup
 src/cleanup-items.js list of hideable YouTube buttons (used by the page and the popup)
-src/cleanup.js       hides the buttons you picked
-src/page-tags.js     reads YouTube's button data to label buttons in any language (runs in the page)
+src/cleanup.js       hides the buttons you picked; notes whether you're signed in
+src/page-tags.js     reads YouTube's button data and sign-in flag (runs in the page)
 src/early.js         applies the hide settings before YouTube first draws the page
 src/main.js          wiring for YouTube's in-page navigation
 src/content.css      styles (follows YouTube's light and dark themes)

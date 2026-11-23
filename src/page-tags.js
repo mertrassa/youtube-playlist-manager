@@ -2,7 +2,8 @@
    behind YouTube's buttons, which the extension's normal scripts can't see. It gives the
    under-video action buttons and the Create button a language-independent name, e.g.
    data-ypm-icon="SHARE" or "PLAYLIST_ADD", which the "Clean up YouTube" CSS uses
-   (see cleanup-items.js). It only reads YouTube's data and sets that one attribute. */
+   (see cleanup-items.js), and copies YouTube's signed-in flag onto <html data-ypm-signed-in>.
+   It only reads YouTube's data and sets those attributes. */
 (() => {
   // Depth-first walk over YouTube's renderer data.
   function walk(obj, fn, seen = new Set()) {
@@ -33,9 +34,17 @@
     }
   }
 
+  // YouTube's own sign-in flag, copied to <html data-ypm-signed-in> for cleanup.js to read.
+  function markSignIn() {
+    const v = window.ytcfg?.get?.("LOGGED_IN");
+    const s = typeof v === "boolean" ? String(v) : null;
+    if (s && document.documentElement.dataset.ypmSignedIn !== s) document.documentElement.dataset.ypmSignedIn = s;
+  }
+
   const HOST = "yt-button-view-model, ytd-button-renderer, ytd-download-button-renderer";
 
   function tagActions() {
+    markSignIn();
     for (const menu of document.querySelectorAll("ytd-watch-metadata ytd-menu-renderer")) {
       const d = menu.data;
       if (!d) continue;

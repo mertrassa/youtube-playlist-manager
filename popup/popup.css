@@ -147,3 +147,16 @@ details[open] {
 #showAll {
   margin-top: 8px;
 }
+.account-line {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+}
+button.link {
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--accent);
+  text-decoration: underline;
+}

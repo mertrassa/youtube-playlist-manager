@@ -3,6 +3,9 @@
    them as switches). Selectors were checked against youtube.com in November 2026, signed in and out.
    Under-video buttons and Create are found by the icon name page-tags.js reads from YouTube's data
    (data-ypm-icon), which works in every language; their English label is a fallback.
+   `when`: "in" = only exists when you're signed in to YouTube, "out" = only when signed out; the
+   popup only lists what applies to you (see cleanup.js for how sign-in is detected). Compared on
+   the same pages signed in and signed out, November 2026.
    To add an item: give it a unique `key`, a `label` for the popup and the CSS selector(s) to hide. */
 var YPM_CLEANUP = (() => {
   // An under-video action button: by YouTube's icon name(s), or by the start of its English label.
@@ -20,9 +23,9 @@ var YPM_CLEANUP = (() => {
         { key: "share", label: "Share", css: action(["SHARE"], "Share") },
         { key: "save", label: "Save", css: action(["PLAYLIST_ADD"], "Save") },
         { key: "download", label: "Download", css: `ytd-watch-metadata ytd-download-button-renderer, ${action(["DOWNLOAD", "OFFLINE_DOWNLOAD"], "Download")}` },
-        { key: "clip", label: "Clip", css: action(["CONTENT_CUT"], "Clip") },
-        { key: "thanks", label: "Thanks", css: action(["MONEY_HEART", "SUPER_THANKS"], "Thanks") },
-        { key: "ask", label: "Ask (AI)", css: action(["SPARK"], "Ask") },
+        { key: "clip", label: "Clip", when: "in", css: action(["CONTENT_CUT"], "Clip") },
+        { key: "thanks", label: "Thanks", when: "in", css: action(["MONEY_HEART", "SUPER_THANKS"], "Thanks") },
+        { key: "ask", label: "Ask (AI)", when: "in", css: action(["SPARK"], "Ask") },
         {
           key: "moreActions",
           label: "More actions (⋯)",
@@ -34,6 +37,7 @@ var YPM_CLEANUP = (() => {
           // On channel pages it replaces the Subscribe button (only that version has the ⌄ arrow).
           key: "subscriptionBell",
           label: "Notification bell of subscribed channels",
+          when: "in",
           css: "ytd-subscribe-button-renderer #notification-preference-button, yt-subscribe-button-view-model:has(.ytSpecButtonShapeNextSecondaryIcon)",
         },
       ],
@@ -62,9 +66,10 @@ var YPM_CLEANUP = (() => {
         {
           key: "create",
           label: "Create",
+          when: "in",
           css: 'ytd-masthead #buttons [data-ypm-icon="ADD"], ytd-masthead #buttons ytd-button-renderer:has(button[aria-label="Create"])',
         },
-        { key: "notifications", label: "Notifications bell (top bar)", css: "ytd-masthead ytd-notification-topbar-button-renderer" },
+        { key: "notifications", label: "Notifications bell (top bar)", when: "in", css: "ytd-masthead ytd-notification-topbar-button-renderer" },
         { key: "countryCode", label: "Country code next to the logo", css: "ytd-topbar-logo-renderer #country-code" },
       ],
     },
@@ -77,7 +82,21 @@ var YPM_CLEANUP = (() => {
           css: 'ytd-guide-section-renderer:has(a[href^="/feed/storefront"], a[href^="/gaming"], a[href^="/feed/trending"])',
         },
         { key: "moreFromYouTube", label: "More from YouTube", css: 'ytd-guide-section-renderer:has(a[href^="/premium"])' },
-        { key: "signInPromo", label: "“Sign in to like videos” box", css: "ytd-guide-signin-promo-renderer" },
+        { key: "signInPromo", label: "“Sign in to like videos” box", when: "out", css: "ytd-guide-signin-promo-renderer" },
+        {
+          // Signed in, these are sections of their own. Signed out, the same links sit in the top
+          // section with Home, so :not(:has(Home)) keeps that section safe.
+          key: "subscriptionsSection",
+          label: "Subscriptions (your channel list)",
+          when: "in",
+          css: 'ytd-guide-section-renderer:has(a#endpoint[href="/feed/subscriptions"]):not(:has(a#endpoint[href="/"]))',
+        },
+        {
+          key: "youSection",
+          label: "You (history, playlists, Watch later…)",
+          when: "in",
+          css: 'ytd-guide-section-renderer:has(a#endpoint[href="/feed/you"]):not(:has(a#endpoint[href="/"]))',
+        },
         { key: "guideFooter", label: "Footer links and copyright", css: "ytd-guide-renderer #footer" },
       ],
     },
@@ -102,5 +121,7 @@ var YPM_CLEANUP = (() => {
       .map((i) => `${i.css} { display: none !important; }`)
       .join("\n");
 
-  return { groups, css };
+  const applies = (item, signedIn) => signedIn == null || !item.when || item.when === (signedIn ? "in" : "out");
+
+  return { groups, css, applies };
 })();

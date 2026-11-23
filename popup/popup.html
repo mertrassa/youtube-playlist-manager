@@ -40,6 +40,26 @@
     </section>
 
     <section>
+      <h2>Hide on YouTube</h2>
+      <label class="row">
+        <input type="checkbox" id="hideShorts" />
+        <span>Shorts, everywhere on YouTube</span>
+      </label>
+      <label class="row">
+        <input type="checkbox" id="hideInterruptions" />
+        <span>The “Experiencing interruptions?” popup</span>
+      </label>
+      <p class="muted">Shorts you open from a link play in the normal player.</p>
+    </section>
+
+    <section>
+      <h2>Clean up YouTube</h2>
+      <p class="muted">Tick what you want to hide. Changes apply right away.</p>
+      <div id="cleanup"></div>
+      <button type="button" id="showAll" hidden>Show all again</button>
+    </section>
+
+    <section>
       <h2>Watch history</h2>
       <label class="row">
         <input type="checkbox" id="trackProgress" />
@@ -58,6 +78,7 @@
     </section>
 
     <footer class="muted">Everything stays in your browser. Nothing is sent anywhere.</footer>
+    <script src="../src/cleanup-items.js"></script>
     <script src="popup.js"></script>
   </body>
 </html>

@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
   "name": "Playlist Manager for YouTube",
-  "version": "2.0.0",
-  "description": "Search, filter, sort and reverse YouTube playlists, play them in any order, skip watched videos and see time left.",
+  "version": "2.1.0",
+  "description": "Playlist tools for YouTube (search, sort, reverse, skip watched, time left), plus hide Shorts and any buttons you don't use.",
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
@@ -12,19 +12,54 @@
     "default_title": "Playlist Manager",
     "default_popup": "popup/popup.html"
   },
-  "permissions": ["storage"],
+  "permissions": [
+    "storage"
+  ],
   "content_scripts": [
     {
-      "matches": ["https://www.youtube.com/*"],
-      "js": ["src/core.js", "src/watch.js", "src/playlist.js", "src/channel.js", "src/main.js"],
-      "css": ["src/content.css"],
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "src/cleanup-items.js",
+        "src/early.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "src/core.js",
+        "src/watch.js",
+        "src/playlist.js",
+        "src/channel.js",
+        "src/shorts.js",
+        "src/interruptions.js",
+        "src/cleanup.js",
+        "src/main.js"
+      ],
+      "css": [
+        "src/content.css"
+      ],
       "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "src/page-tags.js"
+      ],
+      "run_at": "document_idle",
+      "world": "MAIN"
     }
   ],
   "browser_specific_settings": {
     "gecko": {
       "id": "playlist-manager@example.local",
-      "strict_min_version": "115.0"
+      "strict_min_version": "128.0"
     }
   }
 }

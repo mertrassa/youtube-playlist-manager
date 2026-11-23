@@ -18,6 +18,9 @@ var YPM = (globalThis.YPM = globalThis.YPM || {});
     watchedThreshold: 90, // % of a video that counts as "watched"
     trackProgress: true, // remember how much of each video you watched (stored locally)
     speed: 1, // playback speed used for "time left" on playlist pages
+    hideShorts: false, // hide Shorts shelves, cards, tabs and menu entries across YouTube
+    hideInterruptions: true, // hide the "Experiencing interruptions?" toast
+    hidden: {}, // "Clean up YouTube": key from cleanup-items.js -> true to hide that button
   };
   const MAX_VIDEOS = 8000; // cap for the local watch-progress / duration cache
 

@@ -3,7 +3,7 @@
   const Y = YPM;
 
   function refresh() {
-    for (const fn of [Y.ensureWatchUI, Y.ensurePlaylistUI, Y.ensureChannelUI]) {
+    for (const fn of [Y.ensureWatchUI, Y.ensurePlaylistUI, Y.ensureChannelUI, Y.ensureInterruptionsUI]) {
       try {
         fn();
       } catch (e) {

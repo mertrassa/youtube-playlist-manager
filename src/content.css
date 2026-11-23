@@ -304,6 +304,36 @@ ytd-playlist-panel-video-renderer.ypm-watched:not([selected]) #meta {
   opacity: 0.5;
 }
 
+/* ---------- Hide Shorts (html.ypm-no-shorts is set by shorts.js / early.js) ---------- */
+html.ypm-no-shorts :is(
+    ytd-reel-shelf-renderer,
+    ytd-rich-shelf-renderer[is-shorts],
+    ytd-rich-section-renderer:has(ytd-rich-shelf-renderer[is-shorts], ytm-shorts-lockup-view-model),
+    ytd-item-section-renderer:has(> #contents > ytd-reel-shelf-renderer:only-child),
+    grid-shelf-view-model:has(ytm-shorts-lockup-view-model),
+    ytm-shorts-lockup-view-model-v2,
+    ytm-shorts-lockup-view-model,
+    ytd-rich-item-renderer:has(ytm-shorts-lockup-view-model, a[href^="/shorts/"]),
+    ytd-video-renderer:has(a#thumbnail[href^="/shorts/"]),
+    ytd-grid-video-renderer:has(a#thumbnail[href^="/shorts/"]),
+    ytd-compact-video-renderer:has(a[href^="/shorts/"]),
+    yt-lockup-view-model:has(a[href^="/shorts/"]),
+    /* Left menu, full and narrow (icon-only) versions: by link, or by title where there's no link. */
+    ytd-guide-entry-renderer:has(a#endpoint[title="Shorts"], a#endpoint[href^="/shorts"]),
+    ytd-mini-guide-entry-renderer:has(a#endpoint[title="Shorts"], a#endpoint[href^="/shorts"]),
+    yt-tab-shape[tab-title="Shorts"]
+  ) {
+  display: none !important;
+}
+
+/* ---------- "Experiencing interruptions?" toast (html.ypm-no-interruptions set by early.js / interruptions.js) ----------
+   Matched by its "Find out why" link (an ad-blocker help page) or, via script, by its text.
+   pointer-events too: a merely invisible toast can still swallow clicks on what's beneath it. */
+html.ypm-no-interruptions tp-yt-paper-toast:is(.ypm-interruptions-toast, :has(a[href*="blocker"])) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
 /* ---------- Toast ---------- */
 .ypm-toast {
   position: fixed;

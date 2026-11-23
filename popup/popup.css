@@ -120,3 +120,30 @@ footer {
   margin: 10px 0 0;
   font-size: 12px;
 }
+
+/* Clean up YouTube */
+details {
+  border-top: 1px solid var(--border);
+}
+details:first-child {
+  border-top: none;
+}
+summary {
+  padding: 6px 0;
+  font-weight: 600;
+  cursor: pointer;
+}
+summary .tag {
+  margin-left: 4px;
+  font-weight: 400;
+  color: var(--accent);
+}
+details .row {
+  padding-left: 16px;
+}
+details[open] {
+  padding-bottom: 6px;
+}
+#showAll {
+  margin-top: 8px;
+}
